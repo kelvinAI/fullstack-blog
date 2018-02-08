@@ -3,6 +3,33 @@
 ## The fullstack developer handy guide to quick deployment
 A simple blog to note down the hard learned lessons to fullstack development.
 
+## Setting up production ready nginx server
+- Use phusion passenger + nginx + nodejs(or others)
+
+## Nginx configurations
+edit /etc/nginx/nginx.conf, change the lines that read "include sites-enabled/*;" or "include /etc/nginx/sites-enabled/*;" to read 
+"include /etc/nginx/sites-available/*;", to avoid needing to symlink every file from /sites-available to /sites-enabled,
+which is confusing.
+
+## /etc/nginx/sites-available/xxx.conf
+A server block typically looks like this:
+`server
+{
+    listen 80;
+    listen [::]:80;
+    server_name domain01.com www.domain01.com;
+
+    location /
+    {
+        proxy_pass http://127.0.0.1:3626;
+        include /etc/nginx/proxy_params;
+    }
+}`
+
+the value of server_name is crucial, it must be set to the real web address of the server or else it may not work properly.
+eg. server_name www.mydomain.com
+
+
 You can use the [editor on GitHub](https://github.com/kelvinAI/fullstack-blog/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
