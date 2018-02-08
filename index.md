@@ -13,7 +13,8 @@ which is confusing.
 
 ## /etc/nginx/sites-available/xxx.conf
 A server block typically looks like this:
-`server
+`
+server
 {
     listen 80;
     listen [::]:80;
@@ -24,7 +25,9 @@ A server block typically looks like this:
         proxy_pass http://127.0.0.1:3626;
         include /etc/nginx/proxy_params;
     }
-}`
+}
+
+`
 
 the value of server_name is crucial, it must be set to the real web address of the server or else it may not work properly.
 eg. server_name www.mydomain.com
