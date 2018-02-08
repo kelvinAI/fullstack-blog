@@ -7,8 +7,22 @@ A simple blog to note down the hard learned lessons to fullstack development.
 - Use phusion passenger + nginx + nodejs(or others)
 
 ## Nginx configurations
-edit /etc/nginx/nginx.conf, change the lines that read "include sites-enabled/*;" or "include /etc/nginx/sites-enabled/*;" to read 
-"include /etc/nginx/sites-available/*;", to avoid needing to symlink every file from /sites-available to /sites-enabled,
+edit /etc/nginx/nginx.conf, change the lines that read 
+```
+include sites-enabled/*;
+
+or 
+
+include /etc/nginx/sites-enabled/*;
+
+``` 
+
+to
+```
+include /etc/nginx/sites-available/*;
+
+``` 
+to avoid needing to symlink every file from /sites-available to /sites-enabled,
 which is confusing.
 
 ## /etc/nginx/sites-available/xxx.conf
