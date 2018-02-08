@@ -13,7 +13,7 @@ which is confusing.
 
 ## /etc/nginx/sites-available/xxx.conf
 A server block typically looks like this:
-`
+```
 server
 {
     listen 80;
@@ -27,7 +27,7 @@ server
     }
 }
 
-`
+```
 
 the value of server_name is crucial, it must be set to the real web address of the server or else it may not work properly.
 eg. server_name www.mydomain.com
