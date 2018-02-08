@@ -32,6 +32,8 @@ server
 the value of server_name is crucial, it must be set to the real web address of the server or else it may not work properly.
 eg. server_name www.mydomain.com
 
+check out https://www.digitalocean.com/community/questions/setting-up-multiple-nodejs-applications-using-nginx-vitual-hosts for more infomation.
+
 
 You can use the [editor on GitHub](https://github.com/kelvinAI/fullstack-blog/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
 
