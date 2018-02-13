@@ -60,6 +60,28 @@ You can use the [editor on GitHub](https://github.com/kelvinAI/fullstack-blog/ed
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
+
+## Serving static pages (built with npm run build, etc.. )
+nginx basic configurations:
+```
+server {
+  listen 80;
+  server_name app.mydomain.com;
+  root /srv/app-name;
+  index index.html;
+  # Other config you desire (logging, etc)...
+  location / {
+    try_files $uri /index.html;
+  }
+}
+
+```
+Important note!! must use 
+```
+try_files $uri /index.html
+```
+or else page might fail during redirecting / new tabs!!
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
