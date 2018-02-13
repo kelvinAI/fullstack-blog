@@ -25,6 +25,8 @@ include /etc/nginx/sites-available/*;
 to avoid needing to symlink every file from /sites-available to /sites-enabled,
 which is confusing.
 
+
+
 ## /etc/nginx/sites-available/xxx.conf
 A server block typically looks like this:
 ```
@@ -42,6 +44,11 @@ server
 }
 
 ```
+
+## AWS ELB SSL
+To enable SSL termination on ELB, do :
+Request certificates for *.example.com , www.example.com (should have the same cert with *.example.com) and example.com   
+In Amazon route 53, add ALIAS for BOTH example.com, AND *.example.com and point to the load balancer
 
 the value of server_name is crucial, it must be set to the real web address of the server or else it may not work properly.
 eg. server_name www.mydomain.com
