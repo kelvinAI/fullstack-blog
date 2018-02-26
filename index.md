@@ -82,6 +82,10 @@ try_files $uri /index.html
 ```
 or else page might fail during redirecting / new tabs!!
 
+
+### Troubeshooting blank page in create-react app served in subfolder instead of root 
+If you are trying to serve a nodejs app made with create-react in a subfolder , ie. http://mysite.com/version2/, you need to change the baseurl in the create-react router otherwise it will not route correctly and the page will be blank.
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
