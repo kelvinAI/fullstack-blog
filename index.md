@@ -175,13 +175,15 @@ server {
         passenger_env_var RDS_PASSWORD xxxxxxxxxx;
         passenger_env_var RDS_SSL 'xxxxxxxxx';
 }
+
 ```
 
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
+```
+markdown
 Syntax highlighted code block
 
 # Header 1
