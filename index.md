@@ -111,11 +111,11 @@ sudo chown -R appuser:appuser /home/appuser/.conda/
 Install necessary packages, activate environment first
 ```
 source activate flask-env
-conda install flask pandas numpy
+conda install flask pandas numpy mysql-connector-python xlrd
 
 ```
 
-git pull or create the flask application in the web folder
+git pull or create the flask application in the web folder. eg at `/var/www/webapps/flaskapp/`
 
 Ensure that there's a passenger_wsgi.py in the root folder of the flask app. It'll look something like this
 
@@ -138,6 +138,44 @@ Now go back to editing nginx configuration file in /etc/nginx/sites-available/xx
 
 After that, cd into sites-enabled directory and create a symbolic link there to enable the new server block
 `sudo ln -s /etc/nginx/sites-available/xxx.config`
+
+For FLASK, use dotenv `pip install python-dotenv` to manage environment variables between dev server and production server.
+Create a .env file at the root of the app, and set it with key pairs:
+
+/.env
+```
+FLASK_ENV=development
+RDS_PORT=XXXX
+````
+add .env into .gitignore to exclude it from the repository
+
+Then at the beginning of the app, call this to load the env variables: 
+```
+os.getenviron('FLASK_ENV') 
+
+```
+
+For Production using phusion-passenger, use set the environment vars in the nginx configuration file, in the respective block.
+could be in server{} or location{} blocks. Full Example:
+
+```
+server {
+        listen 80;
+        server_name subdomain.*;
+        
+        #use public/static folder as the root even though it does not exist!
+        root /var/www/webapps/flaskapp/public;
+        passenger_enabled on;
+
+        passenger_env_var NODE_ENV staging;
+        passenger_env_var RDS_HOSTNAME xxxxxxxxxxxxxxx;
+        passenger_env_var RDS_PORT xxxxxxxxxx;
+        passenger_env_var RDS_DB_NAME xxxxxxxxxx;
+        passenger_env_var RDS_USERNAME xxxxxxxxx;
+        passenger_env_var RDS_PASSWORD xxxxxxxxxx;
+        passenger_env_var RDS_SSL 'xxxxxxxxx';
+}
+```
 
 ### Markdown
 
