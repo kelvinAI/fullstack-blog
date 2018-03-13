@@ -85,6 +85,60 @@ or else page might fail during redirecting / new tabs!!
 ### Troubeshooting blank page in create-react app served in subfolder instead of root 
 If you are trying to serve a nodejs app made with create-react in a subfolder , ie. http://mysite.com/version2/, you need to change the baseurl in the create-react router otherwise it will not route correctly and the page will be blank.
 
+
+## Setting up a flask app on NGINX, phusion passenger, Anaconda (for easier python env management)
+
+1. Set up nginx config, preferably use a different subdomain, eg. analytics.website.com/ or test.website.com/ as there may be
+problems serving different applications within the same domain, as the NGINX root and ALIAS path gets complicated and prone
+to errors
+
+2. Install Anaconda. Use the 64 bit python3 version. Remember to run the installer as the application user e.g myappuser or www, not the root user that configures the system.
+```
+wget https://repo.continuum.io/archive/Anaconda3-5.1.0-Linux-x86_64.sh
+bash ~/Downloads/Anaconda3-5.1.0-Linux-x86_64.sh`
+```
+Now create environment for the flask app
+```
+conda create -n flask-env 
+```
+If there are multiple permission errors, run chown to fix them one by one. Run as system user
+```
+sudo chown -R  appuser:appuser /home/appuser/.conda/environments.txt
+sudo chown -R appuser:appuser /home/appuser/.conda/
+
+```
+
+Install necessary packages, activate environment first
+```
+source activate flask-env
+conda install flask pandas numpy
+
+```
+
+git pull or create the flask application in the web folder
+
+Ensure that there's a passenger_wsgi.py in the root folder of the flask app. It'll look something like this
+
+```
+import sys,os
+INTERP = '/home/myappuser/anaconda3/envs/flaskenv/bin/python'
+if sys.executable != INTERP:
+        os.execl(INTERP, INTERP, *sys.argv)
+sys.path.append('/home/myappuser/anaconda3/envs/flaskenv/lib/python3.6/site-packages')
+
+from app import MyApp as application
+
+```
+
+The `sys.path.append('/home/myappuser/anaconda3/envs/flaskenv/lib/python3.6/site-packages')` is important to allow the discovery of 
+installed modules in the python environment.
+Point INTERP to the  correct python executable that you've just created earlier
+
+Now go back to editing nginx configuration file in /etc/nginx/sites-available/xxx.config
+
+After that, cd into sites-enabled directory and create a symbolic link there to enable the new server block
+`sudo ln -s /etc/nginx/sites-available/xxx.config`
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
