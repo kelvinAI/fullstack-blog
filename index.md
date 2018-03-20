@@ -178,6 +178,38 @@ server {
 
 ```
 
+## Adding Charting capabilities into FLASK environment requirements:
+Install matplotlib, mpld3 (depending if library is used, for fig.to_html)
+`conda install  matplotlib mpld3`
+
+If you encounter `ImportError: libGL.so.1: cannot open shared object file: No such file or directory`
+The solution is to install libgl1-mesa-glx
+```
+sudo apt update
+sudo apt install libgl1-mesa-glx
+```
+Ref: https://github.com/conda-forge/pygridgen-feedstock/issues/10
+
+
+If you encounter - RuntimeError: Invalid DISPLAY variable
+Fix it by switching the backend to agg
+```
+import matplotlib.pyplot as plt
+plt.switch_backend('agg')
+````
+Ref: https://stackoverflow.com/questions/35737116/runtimeerror-invalid-display-variable
+
+If facing problems when extracting encoded url parameters eg. %20 , %40 from the url, decode/parse them using
+```
+import urllib.parse
+
+@MyApp.route("/analytics/email/<email_raw>/")
+def analytics(email_raw):
+    email =  urllib.parse.unquote(email_raw)
+
+````
+then `email` will be correctly parsed into text representation
+
 ### Markdown
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
